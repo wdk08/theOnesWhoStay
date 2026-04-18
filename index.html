@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Girl in the Window</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    overflow-x: hidden;
+}
+
+/* 🌧️ Rain */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* Content */
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 100px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Title */
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.author {
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+/* Divider */
+.divider {
+    width: 80px;
+    height: 2px;
+    background: #00bfff;
+    margin: 20px auto;
+    opacity: 0.6;
+}
+
+/* Text */
+p {
+    line-height: 1.7;
+    color: #ddd;
+}
+
+/* Buttons */
+.buttons {
+    margin-top: 30px;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    background: #000;
+    border: 2px solid #ffffff22;
+    color: white;
+    padding: 12px 24px;
+    margin: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+button:hover {
+    border-color: #00bfff;
+    box-shadow: 0 0 15px #00bfff66;
+    transform: translateY(-2px);
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="rain"></canvas>
+
+<div class="container">
+    <h1>The Girl in the Window</h1>
+    <p class="author"><b>Written by William Kapadia</b></p>
+
+    <div class="divider"></div>
+
+    <h3>Summary</h3>
+
+    <p><i>The Girl in the Window</i> follows Noah, a talented high school football player with a promising future, who becomes drawn to Ava, the chronically ill girl living across from him whom he first notices through their bedroom windows. What begins as nightly conversations through handwritten notes and phone calls turns into a deep emotional bond, as Ava—confined by a severe lung disease—and Noah—burdened by expectations—find comfort and meaning in each other. As their relationship grows, Noah becomes increasingly conflicted between his football career and his devotion to Ava, especially as her condition worsens. When Ava’s life is put in immediate danger and she needs a rare lung transplant, Noah ultimately chooses to sacrifice his future in football by volunteering as a donor, proving his love and commitment to “stay” when it matters most.</p>
+
+    <div class="buttons">
+        <a href="TheGirlInTheWindow.pdf" target="_blank">
+            <button>📄 View Script</button>
+        </a>
+
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSepG2NEIzNo1iqfDoNz9alzPYXVE9JaP7e3WaAjgVO26ZMQlg/viewform?usp=dialog" target="_blank">
+            <button>💬 Submit Feedback</button>
+        </a>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById("rain");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let rainDrops = [];
+
+for (let i = 0; i < 500; i++) {
+    rainDrops.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        length: Math.random() * 20,
+        speed: Math.random() * 4 + 4
+    });
+}
+
+function drawRain() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "rgba(180, 200, 255, 0.4)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+
+    for (let i = 0; i < rainDrops.length; i++) {
+        let r = rainDrops[i];
+        ctx.moveTo(r.x, r.y);
+        ctx.lineTo(r.x, r.y + r.length);
+    }
+
+    ctx.stroke();
+    moveRain();
+}
+
+function moveRain() {
+    for (let i = 0; i < rainDrops.length; i++) {
+        let r = rainDrops[i];
+        r.y += r.speed;
+        if (r.y > canvas.height) {
+            r.y = 0;
+            r.x = Math.random() * canvas.width;
+        }
+    }
+}
+
+setInterval(drawRain, 30);
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
